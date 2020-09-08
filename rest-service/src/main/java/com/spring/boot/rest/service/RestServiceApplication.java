@@ -1,12 +1,12 @@
-package com.spring.boot.soap.service;
+package com.spring.boot.rest.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SoapServiceApplication {
+public class RestServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SoapServiceApplication.class, args);
+        SpringApplication.run(RestServiceApplication.class, args);
     }
 }

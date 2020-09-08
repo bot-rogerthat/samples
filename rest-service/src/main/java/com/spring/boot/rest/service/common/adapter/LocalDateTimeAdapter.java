@@ -1,4 +1,4 @@
-package com.spring.boot.soap.service.common.adapter;
+package com.spring.boot.rest.service.common.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;

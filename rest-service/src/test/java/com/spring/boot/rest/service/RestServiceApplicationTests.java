@@ -1,13 +1,13 @@
-package com.spring.boot.soap.service;
+package com.spring.boot.rest.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SoapServiceApplicationTests {
+class RestServiceApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
