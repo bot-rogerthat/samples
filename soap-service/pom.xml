@@ -13,12 +13,29 @@
 
     <properties>
         <java.version>11</java.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
         <!--soap start-->
         <dependency>
@@ -39,6 +56,11 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.0-b170127.1453</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jvnet.jaxb2_commons</groupId>-->
+<!--            <artifactId>jaxb2-basics-runtime</artifactId>-->
+<!--            <version>0.11.1</version>-->
+<!--        </dependency>-->
         <!--soap end-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -119,6 +141,13 @@
                         <xjbSource>${project.basedir}/src/main/resources/soap/bindings.xjb</xjbSource>
                     </xjbSources>
                 </configuration>
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.jvnet.jaxb2_commons</groupId>-->
+<!--                        <artifactId>jaxb2-basics-runtime</artifactId>-->
+<!--                        <version>0.11.1</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
             </plugin>
         </plugins>
     </build>

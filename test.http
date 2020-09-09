@@ -1,0 +1,8 @@
+GET http://localhost:8802/api/v1/proxy/message
+
+test proxy message
+
+###
+GET http://localhost:8801/api/v1/message
+
+test message
