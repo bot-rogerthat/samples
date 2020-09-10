@@ -1,4 +1,4 @@
-package com.spring.boot.rest.service.integration;
+package com.spring.boot.rest.service.integration.soap;
 
 import com.samples.soap.Article;
 import com.samples.soap.GetArticleRequest;

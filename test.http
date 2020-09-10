@@ -1,8 +1,39 @@
+### soap getArticleByName test
+POST http://localhost:8801/api/v1/ws
+Content-Type: text/xml;charset=UTF-8
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://samples.com/soap">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <soap:getArticleRequest>
+            <soap:name>Name 1</soap:name>
+        </soap:getArticleRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+### soap addArticle test
+POST http://localhost:8801/api/v1/ws
+Content-Type: text/xml;charset=UTF-8
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://samples.com/soap">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <soap:addArticleRequest>
+            <soap:name>testName</soap:name>
+            <soap:description>testDescription</soap:description>
+        </soap:addArticleRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+### rest getArticleByName test
+GET http://localhost:8802/api/v1/articles/Name 1
+
+### rest testProxyMessage log tracing test
 GET http://localhost:8802/api/v1/proxy/message
 
 test proxy message
 
-###
-GET http://localhost:8801/api/v1/message
+### rest sendMessageToKafka test
+POST http://localhost:8802/api/v1/kafka/message
 
-test message
+kafka message
