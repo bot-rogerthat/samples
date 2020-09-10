@@ -16,7 +16,15 @@ create topic
 ```
 .\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test-topic
 ```
-#### 3. test
+#### 3. run zipkin
+```
+docker run -d -p 9411:9411 openzipkin/zipkin
+```
+#### 4. run test
 ```
 test.http
+```
+#### 5. look at zipkin
+```
+http://localhost:9411/zipkin/
 ```
