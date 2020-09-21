@@ -1,6 +1,9 @@
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://samples.com/soap" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://samples.com/soap" targetNamespace="http://samples.com/soap">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://samples.com/soap"
+                  targetNamespace="http://samples.com/soap">
     <wsdl:types>
-        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://samples.com/soap">
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+                   targetNamespace="http://samples.com/soap">
             <xs:element name="addArticleRequest">
                 <xs:complexType>
                     <xs:sequence>
@@ -41,25 +44,25 @@
         </xs:schema>
     </wsdl:types>
     <wsdl:message name="getArticleRequest">
-        <wsdl:part element="tns:getArticleRequest" name="getArticleRequest"> </wsdl:part>
+        <wsdl:part element="tns:getArticleRequest" name="getArticleRequest"></wsdl:part>
     </wsdl:message>
     <wsdl:message name="getArticleResponse">
-        <wsdl:part element="tns:getArticleResponse" name="getArticleResponse"> </wsdl:part>
+        <wsdl:part element="tns:getArticleResponse" name="getArticleResponse"></wsdl:part>
     </wsdl:message>
     <wsdl:message name="addArticleRequest">
-        <wsdl:part element="tns:addArticleRequest" name="addArticleRequest"> </wsdl:part>
+        <wsdl:part element="tns:addArticleRequest" name="addArticleRequest"></wsdl:part>
     </wsdl:message>
     <wsdl:message name="addArticleResponse">
-        <wsdl:part element="tns:addArticleResponse" name="addArticleResponse"> </wsdl:part>
+        <wsdl:part element="tns:addArticleResponse" name="addArticleResponse"></wsdl:part>
     </wsdl:message>
     <wsdl:portType name="ArticlesPort">
         <wsdl:operation name="getArticle">
-            <wsdl:input message="tns:getArticleRequest" name="getArticleRequest"> </wsdl:input>
-            <wsdl:output message="tns:getArticleResponse" name="getArticleResponse"> </wsdl:output>
+            <wsdl:input message="tns:getArticleRequest" name="getArticleRequest"></wsdl:input>
+            <wsdl:output message="tns:getArticleResponse" name="getArticleResponse"></wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="addArticle">
-            <wsdl:input message="tns:addArticleRequest" name="addArticleRequest"> </wsdl:input>
-            <wsdl:output message="tns:addArticleResponse" name="addArticleResponse"> </wsdl:output>
+            <wsdl:input message="tns:addArticleRequest" name="addArticleRequest"></wsdl:input>
+            <wsdl:output message="tns:addArticleResponse" name="addArticleResponse"></wsdl:output>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="ArticlesPortSoap11" type="tns:ArticlesPort">

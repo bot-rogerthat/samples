@@ -17,4 +17,9 @@ public class ArticleService {
         Article article = articleSoapClient.getArticle(name);
         return articleMapper.articleToArticleDto(article);
     }
+
+    public ArticleDto add(ArticleDto articleDto) {
+        Article article = articleSoapClient.addArticle(articleDto);
+        return articleMapper.articleToArticleDto(article);
+    }
 }

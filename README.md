@@ -6,7 +6,7 @@ docker run --name samples-postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432
 ```
 #### 2. run kafka
 ```
-docker-compose run -d
+docker-compose up -d
 ```
 download:
 ```
@@ -20,11 +20,15 @@ create topic
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
-#### 4. run test
+#### 5. run app
+```
+alt+8 & crtl+shift+F10
+```
+#### 6. run test
 ```
 test.http
 ```
-#### 5. look at zipkin
+#### 7. look at zipkin
 ```
 http://localhost:9411/zipkin/
 ```

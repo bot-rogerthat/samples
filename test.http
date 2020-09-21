@@ -34,6 +34,10 @@ GET http://localhost:8802/api/v1/proxy/message
 test proxy message
 
 ### rest sendMessageToKafka test
-POST http://localhost:8802/api/v1/kafka/message
+POST http://localhost:8803/api/v1/kafka/article
+Content-Type: application/json
 
-kafka message
+{
+  "name" : "articleName",
+  "description" : "articleDescription"
+}

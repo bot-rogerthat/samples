@@ -21,6 +21,8 @@
     <modules>
         <module>soap-service</module>
         <module>rest-service</module>
+        <module>kafka-producer-service</module>
+        <module>kafka-consumer-service</module>
     </modules>
 
 </project>

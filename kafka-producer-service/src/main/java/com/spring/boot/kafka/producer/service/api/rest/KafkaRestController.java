@@ -1,6 +1,7 @@
-package com.spring.boot.rest.service.api.rest;
+package com.spring.boot.kafka.producer.service.api.rest;
 
-import com.spring.boot.rest.service.integration.kafka.KafkaSender;
+import com.spring.boot.kafka.producer.service.business.entity.Article;
+import com.spring.boot.kafka.producer.service.integration.kafka.KafkaSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,9 @@ public class KafkaRestController {
     private final KafkaSender kafkaSender;
 
     @PostMapping
-    @RequestMapping("message")
-    public String send(@RequestBody String message) {
-        kafkaSender.sendMessage(message);
-        return "ok";
+    @RequestMapping("article")
+    public Article send(@RequestBody Article article) {
+        kafkaSender.sendMessage(article);
+        return article;
     }
 }
