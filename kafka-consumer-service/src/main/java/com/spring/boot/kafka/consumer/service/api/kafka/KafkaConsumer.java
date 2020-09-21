@@ -5,6 +5,7 @@ import com.spring.boot.kafka.consumer.service.integration.ArticleRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -14,9 +15,9 @@ public class KafkaConsumer {
     private final ArticleRestService articleRestService;
 
     @KafkaListener(topics = "${kafka.topic}", groupId = "${kafka.group.id}")
-    public void consume(Article article) {
+    public void consume(Article article, Acknowledgment acknowledgmen) {
         log.info("before consume: {}", article);
-        articleRestService.send(article);
+        articleRestService.send(article, acknowledgmen);
         log.info("after consume: {}", article);
     }
 }
