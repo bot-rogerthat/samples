@@ -3,7 +3,7 @@ package com.spring.boot.rest.service.business.service;
 import com.samples.soap.Article;
 import com.spring.boot.rest.service.business.entity.ArticleDto;
 import com.spring.boot.rest.service.common.mapper.ArticleMapper;
-import com.spring.boot.rest.service.integration.soap.ArticleSoapClient;
+import com.spring.boot.rest.service.integration.soap.artice.ArticleSoapClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

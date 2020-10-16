@@ -1,4 +1,4 @@
-package com.spring.boot.rest.service.integration.soap;
+package com.spring.boot.rest.service.integration.soap.artice;
 
 import com.samples.soap.*;
 import com.spring.boot.rest.service.business.entity.ArticleDto;
