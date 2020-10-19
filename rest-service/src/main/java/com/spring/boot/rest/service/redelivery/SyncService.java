@@ -1,8 +1,6 @@
 package com.spring.boot.rest.service.redelivery;
 
-public interface AsyncService<Req, Res> extends ExternalService<Req> {
-
-    void onMessage(String message);
+public interface SyncService<Req, Res> extends ExternalService<Req> {
 
     void onSuccess(Res response, Context<Req> context);
 

@@ -6,20 +6,22 @@ import com.spring.boot.rest.service.common.RedeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public abstract class AbstractDefaultAsyncService<Req, Res> implements AsyncService<Req, Res> {
+public class DefaultAsyncService<Req, Res> implements AsyncService<Req, Res>, Redelivery {
     private final DataProvider<Req, Res> dataProvider;
     private final int redeliveryCount;
+    private final long secondToActivate;
     @Autowired
     private RedeliveryService redeliveryService;
 
-    public AbstractDefaultAsyncService(DataProvider<Req, Res> dataProvider, int redeliveryCount) {
+    public DefaultAsyncService(DataProvider<Req, Res> dataProvider, int redeliveryCount, long secondToActivate) {
         this.dataProvider = dataProvider;
         this.redeliveryCount = redeliveryCount;
+        this.secondToActivate = secondToActivate;
     }
 
     @Override
     public void onMessage(String message) {
-        Context<Req> context = new Gson().fromJson(message, new TypeToken<Req>() {
+        Context<Req> context = new Gson().fromJson(message, new TypeToken<Context<Req>>() {
         }.getType());
         send(context);
     }
@@ -29,11 +31,12 @@ public abstract class AbstractDefaultAsyncService<Req, Res> implements AsyncServ
         if (context.getCount() < redeliveryCount) {
             try {
                 //todo before log
-                dataProvider.invoke(context.getRequest());
+                Res response = dataProvider.invoke(context.getRequest());
+                onSuccess(response, context);
                 //todo after log
             } catch (RedeliveryException e) {
                 //todo error after log
-                redeliveryService.doDelivery(context);
+                doDelivery(context, secondToActivate);
             } catch (NonRedeliveryException e) {
                 //todo error after log
                 onFail(context);
@@ -45,11 +48,16 @@ public abstract class AbstractDefaultAsyncService<Req, Res> implements AsyncServ
 
     @Override
     public void onFail(Context<Req> context) {
-        redeliveryService.doDelivery(context);
+        doDelivery(context, secondToActivate);
     }
 
     @Override
     public void onSuccess(Res response, Context<Req> context) {
         //do nothing
+    }
+
+    @Override
+    public void doDelivery(Context<?> context, long secondToActivate) {
+        redeliveryService.doDelivery(context, secondToActivate);
     }
 }

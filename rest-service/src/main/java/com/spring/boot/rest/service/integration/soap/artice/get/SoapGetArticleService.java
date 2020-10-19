@@ -5,7 +5,7 @@ import com.samples.soap.Article;
 import com.samples.soap.GetArticleRequest;
 import com.samples.soap.GetArticleResponse;
 import com.spring.boot.rest.service.integration.soap.artice.add.SoapAddArticleService;
-import com.spring.boot.rest.service.redelivery.AbstractDefaultAsyncService;
+import com.spring.boot.rest.service.redelivery.DefaultAsyncService;
 import com.spring.boot.rest.service.redelivery.Context;
 import com.spring.boot.rest.service.redelivery.DataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SoapGetArticleService extends AbstractDefaultAsyncService<GetArticleRequest, GetArticleResponse> {
+public class SoapGetArticleService extends DefaultAsyncService<GetArticleRequest, GetArticleResponse> {
     @Autowired
     private SoapAddArticleService soapAddArticleService;
 
     @Autowired
     public SoapGetArticleService(@Qualifier("soapGetArticleProvider") DataProvider<GetArticleRequest, GetArticleResponse> dataProvider,
-                                 @Value("${retry.default.count}") int redeliveryCount) {
-        super(dataProvider, redeliveryCount);
+                                 @Value("${retry.default.count}") int redeliveryCount,
+                                 @Value("${retry.activate.second}") long activateSecond) {
+        super(dataProvider, redeliveryCount, activateSecond);
     }
 
     @Override

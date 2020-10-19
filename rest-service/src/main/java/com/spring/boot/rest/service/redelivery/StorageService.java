@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class StorageService {
     private final StorageMapper storageMapper;
 
-    public void insert(String uuid, String context, LocalDateTime activationDate){
+    public void insert(String uuid, String context, LocalDateTime activationDate) {
         storageMapper.insert(uuid, context, activationDate);
     }
 }
