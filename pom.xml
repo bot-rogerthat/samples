@@ -23,6 +23,7 @@
         <module>rest-service</module>
         <module>kafka-producer-service</module>
         <module>kafka-consumer-service</module>
+        <module>redelivery-service</module>
     </modules>
 
 </project>

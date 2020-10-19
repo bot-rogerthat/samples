@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset yakushenoksi:002.1
+--changeset yakushenoksi:202010181001.1
 create table prod.article (
     id bigserial primary key,
     name varchar(255) not null,
@@ -9,6 +9,6 @@ create table prod.article (
 --rollback drop table prod.article;
 
 --liquibase formatted sql
---changeset yakushenoksi:002.2
+--changeset yakushenoksi:202010181001.2
 create index article_name_idx on prod.article (name);
 --rollback drop index article_name_idx;
