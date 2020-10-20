@@ -1,8 +1,6 @@
 package com.spring.boot.rest.service.redelivery;
 
-public interface SyncService<Req, Res> extends ExternalService<Req> {
+public interface SyncService<Req, Res> {
 
-    void onSuccess(Res response, Context<Req> context);
-
-    void onFail(Context<Req> context);
+    Res send(Context<Req> context) throws RedeliveryException, NonRedeliveryException;
 }

@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SoapAddArticleService extends DefaultAsyncService<AddArticleRequest, AddArticleResponse> {
+public class SoapAddArticleService /*extends DefaultAsyncService<AddArticleRequest, AddArticleResponse>*/ {
 
-    @Autowired
-    public SoapAddArticleService(@Qualifier("soapAddArticleProvider") DataProvider<AddArticleRequest, AddArticleResponse> dataProvider,
-                                 @Value("${retry.default.count}") int redeliveryCount) {
-        super(dataProvider, redeliveryCount);
-    }
+//    @Autowired
+//    public SoapAddArticleService(@Qualifier("soapAddArticleProvider") DataProvider<AddArticleRequest, AddArticleResponse> dataProvider,
+//                                 @Value("${retry.default.count}") int redeliveryCount) {
+//        super(dataProvider, redeliveryCount);
+//    }
 }
