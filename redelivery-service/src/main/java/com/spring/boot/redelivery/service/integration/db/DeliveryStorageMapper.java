@@ -1,6 +1,6 @@
 package com.spring.boot.redelivery.service.integration.db;
 
-import com.spring.boot.redelivery.service.common.entity.Delivery;
+import com.spring.boot.redelivery.service.model.Delivery;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -10,15 +10,15 @@ import java.util.List;
 @Mapper
 public interface DeliveryStorageMapper {
 
-    @Insert("INSERT INTO prod.delivery(uuid, service_id, context, activation_date) " +
+    @Insert("INSERT INTO redelivery.delivery(uuid, service_id, context, activation_date) " +
             "VALUES (#{uuid}," +
-            " #{serviceId}," +
-            " #{context})," +
-            " #{activationDate}")
+            " #{serviceId}, " +
+            " #{context}::jsonb, " +
+            " #{activationDate})")
     void insert(Delivery delivery);
 
     @Select("SELECT uuid, service_id, context, activation_date " +
-            "FROM prod.delivery " +
+            "FROM redelivery.delivery " +
             "WHERE #{now} > activation_date " +
             "LIMIT #{limitRows} FOR UPDATE SKIP LOCKED")
     @Results({
@@ -30,7 +30,7 @@ public interface DeliveryStorageMapper {
     })
     List<Delivery> select(LocalDateTime now, long limitRows);
 
-    @Delete("DELETE FROM prod.delivery " +
+    @Delete("DELETE FROM redelivery.delivery " +
             "WHERE uuid = #{uuid}")
     void delete(Delivery delivery);
 }

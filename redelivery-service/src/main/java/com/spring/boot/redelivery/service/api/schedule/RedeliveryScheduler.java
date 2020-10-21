@@ -1,9 +1,10 @@
 package com.spring.boot.redelivery.service.api.schedule;
 
-import com.spring.boot.redelivery.service.common.entity.Delivery;
 import com.spring.boot.redelivery.service.integration.db.DeliveryStorageMapper;
 import com.spring.boot.redelivery.service.integration.kafka.KafkaSender;
+import com.spring.boot.redelivery.service.model.Delivery;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RedeliveryScheduler {
     private final DeliveryStorageMapper deliveryStorageMapper;
     private final KafkaSender kafkaSender;
@@ -27,8 +29,10 @@ public class RedeliveryScheduler {
     public void run() {
         List<Delivery> deliveries = deliveryStorageMapper.select(LocalDateTime.now(clock), limitRows);
         for (Delivery delivery : deliveries) {
+            log.info("before run: {}", delivery);
             kafkaSender.sendMessage(delivery);
             deliveryStorageMapper.delete(delivery);
+            log.info("after run: {}", delivery);
         }
     }
 }

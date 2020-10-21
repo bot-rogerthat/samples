@@ -1,6 +1,7 @@
 package com.spring.boot.redelivery.service.integration.kafka;
 
-import com.spring.boot.redelivery.service.common.entity.Delivery;
+
+import com.spring.boot.redelivery.service.model.Delivery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -26,5 +27,6 @@ public class KafkaSender {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+        log.info("before after: topic={}, message={}", serviceId, context);
     }
 }

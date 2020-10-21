@@ -1,4 +1,4 @@
-package com.spring.boot.redelivery.service.common.entity;
+package com.spring.boot.redelivery.service.model;
 
 import lombok.Data;
 

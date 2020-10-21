@@ -24,6 +24,7 @@
         <module>kafka-producer-service</module>
         <module>kafka-consumer-service</module>
         <module>redelivery-service</module>
+        <module>redelivery-starter</module>
     </modules>
 
 </project>

@@ -1,4 +1,4 @@
-package com.spring.boot.rest.service.redelivery;
+package com.spring.boot.redelivery.starter;
 
 import lombok.Data;
 

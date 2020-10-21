@@ -2,19 +2,21 @@ package com.spring.boot.rest.service.integration.soap.artice.add;
 
 import com.samples.soap.AddArticleRequest;
 import com.samples.soap.AddArticleResponse;
-import com.spring.boot.rest.service.redelivery.DefaultAsyncService;
-import com.spring.boot.rest.service.redelivery.DataProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import com.spring.boot.redelivery.starter.Context;
+import com.spring.boot.redelivery.starter.NonRedeliveryException;
+import com.spring.boot.redelivery.starter.RedeliveryException;
+import com.spring.boot.redelivery.starter.SyncService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SoapAddArticleService /*extends DefaultAsyncService<AddArticleRequest, AddArticleResponse>*/ {
+@RequiredArgsConstructor
+public class SoapAddArticleService implements SyncService<AddArticleRequest, AddArticleResponse> {
+    private final SoapAddArticleProvider soapAddArticleProvider;
 
-//    @Autowired
-//    public SoapAddArticleService(@Qualifier("soapAddArticleProvider") DataProvider<AddArticleRequest, AddArticleResponse> dataProvider,
-//                                 @Value("${retry.default.count}") int redeliveryCount) {
-//        super(dataProvider, redeliveryCount);
-//    }
+    @Override
+    public AddArticleResponse send(Context<AddArticleRequest> context) throws RedeliveryException, NonRedeliveryException {
+        return soapAddArticleProvider.invoke(context.getRequest());
+    }
+
 }
