@@ -22,10 +22,12 @@ public class ArticleRestController {
     public String getByNameAsync(@PathVariable String name) {
         Context<Object> context = new Context<>(name);
         //todo before log start process
+        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", name);
         GetArticleRequest request = new GetArticleRequest();
         request.setName(name);
         soapGetArticleAsyncService.send(new Context<>(context, soapGetArticleAsyncService.getTopic(), request));
         //todo after log end process
+        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", "ok");
         return "ok";
     }
 

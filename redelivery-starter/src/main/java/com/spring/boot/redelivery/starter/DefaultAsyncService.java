@@ -47,19 +47,19 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
             Req request = context.getRequest();
             try {
                 //todo before log
-                log.info("before dataProvider.invoke {}", request);
+                log.info("before dataProvider.invoke {}", context);
                 Res response = dataProvider.invoke(request);
                 //todo after log
-                log.info("after dataProvider.invoke {}", request);
+                log.info("after dataProvider.invoke {}", context);
 
                 callback.onSuccess(response, context);
             } catch (RedeliveryException e) {
                 //todo error after log
-                log.info("error dataProvider.invoke {}", request);
+                log.info("error dataProvider.invoke {}", context);
                 doDelivery(context, secondToActivate);
             } catch (NonRedeliveryException e) {
                 //todo error after log
-                log.info("error dataProvider.invoke {}", request);
+                log.info("error dataProvider.invoke {}", context);
                 callback.onFail(context);
             }
         } else {
