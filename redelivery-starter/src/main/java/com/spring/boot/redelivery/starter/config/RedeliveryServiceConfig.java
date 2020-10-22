@@ -16,7 +16,7 @@ public class RedeliveryServiceConfig {
     private final RedeliveryKafkaProperties redeliveryKafkaProperties;
 
     @Bean
-    public RedeliveryService redeliveryService(){
+    public RedeliveryService redeliveryService() {
         return new RedeliveryService(kafkaTemplate, clock, redeliveryKafkaProperties);
     }
 }

@@ -25,7 +25,7 @@ public class ArticleRestController {
         log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", name);
         GetArticleRequest request = new GetArticleRequest();
         request.setName(name);
-        soapGetArticleAsyncService.send(new Context<>(context, soapGetArticleAsyncService.getTopic(), request));
+        soapGetArticleAsyncService.send(new Context<>(context, soapGetArticleAsyncService.getSystem(), request));
         //todo after log end process
         log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", "ok");
         return "ok";

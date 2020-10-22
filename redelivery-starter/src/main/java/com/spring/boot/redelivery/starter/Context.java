@@ -27,4 +27,12 @@ public class Context<Req> {
         this.serviceId = "api";
         this.storage = new HashMap<>();
     }
+
+    public void put(String key, String value) {
+        storage.put(key, value);
+    }
+
+    public String get(String key) {
+        return storage.get(key);
+    }
 }

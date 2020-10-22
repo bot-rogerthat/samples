@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.time.Clock;
@@ -36,6 +35,7 @@ public class RedeliveryService {
     private Delivery createDelivery(Context<?> context, long secondToActivate) {
         Delivery delivery = new Delivery();
         delivery.setUuid(context.getUuid());
+        //todo выпилить serviceId из context'a
         delivery.setServiceId(context.getServiceId());
         delivery.setContext(new Gson().toJson(context));
         delivery.setActivationDate(LocalDateTime.now(clock).plusSeconds(secondToActivate));

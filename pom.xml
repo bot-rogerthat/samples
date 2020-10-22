@@ -25,6 +25,7 @@
         <module>kafka-consumer-service</module>
         <module>redelivery-service</module>
         <module>redelivery-starter</module>
+        <module>db-rest-service</module>
     </modules>
 
 </project>

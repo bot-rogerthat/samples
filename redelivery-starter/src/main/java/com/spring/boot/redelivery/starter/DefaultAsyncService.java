@@ -1,40 +1,29 @@
 package com.spring.boot.redelivery.starter;
 
+import brave.Span;
+import brave.Tracer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import java.lang.reflect.Type;
-
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redelivery {
     private final DataProvider<Req, Res> dataProvider;
     private final RedeliveryService redeliveryService;
     private final int redeliveryCount;
     private final long secondToActivate;
     private final Callback<Req, Res> callback;
-    private final String topic;
+    private final String system;
     private final Class<Req> clazz;
-
-    public DefaultAsyncService(DataProvider<Req, Res> dataProvider,
-                               RedeliveryService redeliveryService,
-                               int redeliveryCount,
-                               long secondToActivate,
-                               Callback<Req, Res> callback,
-                               String topic,
-                               Class<Req> clazz) {
-        this.dataProvider = dataProvider;
-        this.redeliveryService = redeliveryService;
-        this.redeliveryCount = redeliveryCount;
-        this.secondToActivate = secondToActivate;
-        this.callback = callback;
-        this.topic = topic;
-        this.clazz = clazz;
-    }
+    @Autowired
+    private Tracer tracer;
 
     @Override
-    @KafkaListener(topics = "#{__listener.getTopic()}")
+    @KafkaListener(topics = "#{__listener.getSystem()}")
     public void onMessage(String message) {
         Context<Req> context = new Gson().fromJson(message, TypeToken.getParameterized(Context.class, clazz).getType());
         send(context);
@@ -42,25 +31,27 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
 
     @Override
     public void send(Context<Req> context) {
+        Span newSpan = tracer.nextSpan().name(system).start();
         context.setCount(context.getCount() + 1);
         if (context.getCount() < redeliveryCount) {
             Req request = context.getRequest();
-            try {
+            try (Tracer.SpanInScope ws = tracer.withSpanInScope(newSpan.start())) {
                 //todo before log
-                log.info("before dataProvider.invoke {}", context);
+                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "before", context.getRequest());
                 Res response = dataProvider.invoke(request);
                 //todo after log
-                log.info("after dataProvider.invoke {}", context);
-
+                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "after", response);
                 callback.onSuccess(response, context);
             } catch (RedeliveryException e) {
                 //todo error after log
-                log.info("error dataProvider.invoke {}", context);
+                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
                 doDelivery(context, secondToActivate);
             } catch (NonRedeliveryException e) {
                 //todo error after log
-                log.info("error dataProvider.invoke {}", context);
+                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
                 callback.onFail(context);
+            } finally {
+                newSpan.finish();
             }
         } else {
             callback.onFail(context);
@@ -72,7 +63,7 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
         redeliveryService.doDelivery(context, secondToActivate);
     }
 
-    public String getTopic() {
-        return topic;
+    public String getSystem() {
+        return system;
     }
 }
