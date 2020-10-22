@@ -10,4 +10,5 @@ public class Delivery {
     private String serviceId;
     private String context;
     private LocalDateTime activationDate;
+    private String traceId;
 }

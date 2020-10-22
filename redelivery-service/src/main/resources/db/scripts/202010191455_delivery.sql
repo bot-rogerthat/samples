@@ -4,7 +4,8 @@ create table redelivery.delivery (
     uuid varchar(255) not null,
     service_id varchar(255) not null,
     context jsonb not null,
-    activation_date timestamp default null
+    activation_date timestamp default null,
+    trace_id varchar(16)
 );
 --rollback drop table redelivery.delivery;
 
