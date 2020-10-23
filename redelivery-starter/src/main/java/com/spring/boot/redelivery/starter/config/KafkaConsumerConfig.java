@@ -1,12 +1,11 @@
-package com.spring.boot.rest.service.common.config;
+package com.spring.boot.redelivery.starter.config;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -21,23 +20,16 @@ import java.util.Map;
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
 
 @Configuration
-@EnableKafka
+@EnableConfigurationProperties(RedeliveryKafkaProperties.class)
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
-    @Value("${kafka.bootstrap.servers}")
-    private String bootstrapServers;
-    @Value("${kafka.group.id}")
-    private String groupId;
-    @Value("${kafka.backoff.period.ms}")
-    private Long backOffPeriodMs;
-    @Value("${kafka.max.attempts}")
-    private Integer maxAttempts;
+    private final RedeliveryKafkaProperties redeliveryKafkaProperties;
 
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, redeliveryKafkaProperties.getBootstrapServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, redeliveryKafkaProperties.getGroupId());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
@@ -59,10 +51,10 @@ public class KafkaConsumerConfig {
     public RetryTemplate kafkaRetry() {
         RetryTemplate retryTemplate = new RetryTemplate();
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(backOffPeriodMs);
+        fixedBackOffPolicy.setBackOffPeriod(redeliveryKafkaProperties.getBackOffPeriodMs());
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
         SimpleRetryPolicy simpleRetryPolicy = new SimpleRetryPolicy();
-        simpleRetryPolicy.setMaxAttempts(maxAttempts);
+        simpleRetryPolicy.setMaxAttempts(redeliveryKafkaProperties.getMaxAttempts());
         retryTemplate.setRetryPolicy(simpleRetryPolicy);
         return retryTemplate;
     }
