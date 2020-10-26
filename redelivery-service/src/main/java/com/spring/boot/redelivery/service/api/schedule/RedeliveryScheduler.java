@@ -43,7 +43,7 @@ public class RedeliveryScheduler {
             long spanId = generateNewSpanId();
             TraceContext traceContext = TraceContext.newBuilder().traceId(id).spanId(spanId).build();
             Span span = tracer.toSpan(traceContext);
-            try (Tracer.SpanInScope ws = tracer.withSpanInScope(span.start())) {
+            try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span.start())) {
                 log.info("before run: {}", delivery);
                 rabbitMqSender.sendMessage(delivery);
                 deliveryStorageMapper.delete(delivery);

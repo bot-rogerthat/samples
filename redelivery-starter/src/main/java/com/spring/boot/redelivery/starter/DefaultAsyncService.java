@@ -48,7 +48,7 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
             } catch (RedeliveryException e) {
                 //todo error after log
                 log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
-                doDelivery(context, secondToActivate);
+                doDelivery(context);
             } catch (NonRedeliveryException e) {
                 //todo error after log
                 log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
@@ -62,7 +62,7 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
     }
 
     @Override
-    public void doDelivery(Context<?> context, long secondToActivate) {
+    public void doDelivery(Context<?> context) {
         redeliveryService.doDelivery(context, secondToActivate);
     }
 
