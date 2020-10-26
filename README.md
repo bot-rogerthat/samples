@@ -39,3 +39,6 @@ docker run -d --name jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p 5775:5775/udp 
 docker run -d -p 9000:9000 -e ZOOKEEPER_CONNECT=127.0.0.1:2181 kafdrop
 
 docker run -d --rm -p 9000:9000 -e KAFKA_BROKERCONNECT=127.0.0.1:9092 -e JVM_OPTS="-Xms32M -Xmx64M" -e SERVER_SERVLET_CONTEXTPATH="/" obsidiandynamics/kafdrop:latest
+
+#### run  rabbit mq:
+docker run -d -p 5672:5672 -p 15672:15672 --name my-rabbit rabbitmq:3-management

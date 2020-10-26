@@ -1,34 +1,26 @@
 package com.spring.boot.redelivery.starter;
 
 import com.google.gson.Gson;
-import com.spring.boot.redelivery.starter.config.RedeliveryKafkaProperties;
+import com.spring.boot.redelivery.starter.config.RabbitMqProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Slf4j
 public class RedeliveryService {
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final RabbitTemplate rabbitTemplate;
     private final Clock clock;
-    private final RedeliveryKafkaProperties redeliveryKafkaProperties;
+    private final RabbitMqProperties rabbitMqProperties;
 
     public void doDelivery(Context<?> context, long secondToActivate) {
         Delivery delivery = createDelivery(context, secondToActivate);
         String json = new Gson().toJson(delivery);
         log.info("before doDelivery: {}", json);
-        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(redeliveryKafkaProperties.getTopic(), json);
-        try {
-            future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        rabbitTemplate.convertAndSend(rabbitMqProperties.getQueue(), json);
         log.info("after doDelivery: {}", json);
     }
 

@@ -7,12 +7,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redelivery {
+public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redelivery, MessageListener {
     private final DataProvider<Req, Res> dataProvider;
     private final RedeliveryService redeliveryService;
     private final int redeliveryCount;
@@ -24,9 +27,8 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
     private Tracer tracer;
 
     @Override
-    @KafkaListener(topics = "#{__listener.getSystem()}")
-    public void onMessage(String message) {
-        Context<Req> context = new Gson().fromJson(message, TypeToken.getParameterized(Context.class, clazz).getType());
+    public void onMessage(Message message) {
+        Context<Req> context = new Gson().fromJson(new String(message.getBody(), StandardCharsets.UTF_8), TypeToken.getParameterized(Context.class, clazz).getType());
         send(context);
     }
 
