@@ -42,6 +42,9 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1);
+        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, 4 * 1000);
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 12 * 1000);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 5 * 60 * 1000);
         return props;
     }
 
