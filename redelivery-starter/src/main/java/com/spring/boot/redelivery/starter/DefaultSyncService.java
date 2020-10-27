@@ -18,7 +18,7 @@ public class DefaultSyncService<Req, Res> implements SyncService<Req, Res> {
     @Override
     public Res send(Context<Req> context) throws NonRedeliveryException {
         Span newSpan = tracer.nextSpan().name(system).start();
-        try (Tracer.SpanInScope ws = tracer.withSpanInScope(newSpan.start())) {
+        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan.start())) {
             log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "before", context.getRequest());
             Res response = dataProvider.invoke(context.getRequest());
             log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "after", response);

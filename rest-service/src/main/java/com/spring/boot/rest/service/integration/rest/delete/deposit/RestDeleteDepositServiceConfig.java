@@ -5,9 +5,6 @@ import com.spring.boot.redelivery.starter.DataProvider;
 import com.spring.boot.redelivery.starter.DefaultAsyncService;
 import com.spring.boot.redelivery.starter.RedeliveryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,19 +33,5 @@ public class RestDeleteDepositServiceConfig {
                 restDeleteDepositCallback,
                 appName + "_" + "restDeleteDepositAsyncService",
                 String.class);
-    }
-
-    @Bean
-    public Queue restDeleteDepositAsyncQueue() {
-        return new Queue(appName + "_" + "restDeleteDepositAsyncService", true);
-    }
-
-    @Bean
-    public SimpleMessageListenerContainer restDeleteDepositAsyncContainer(ConnectionFactory connectionFactory) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(appName + "_" + "restDeleteDepositAsyncService");
-        container.setMessageListener(restDeleteDepositAsyncService());
-        return container;
     }
 }

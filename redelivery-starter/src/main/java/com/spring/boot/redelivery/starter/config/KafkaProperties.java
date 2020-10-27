@@ -5,6 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties(prefix = "redelivery")
-public class RabbitMqProperties {
-    private String queue;
+public class KafkaProperties {
+    private String bootstrapServers;
+    private String topic;
+    private String groupId;
+    private Long backOffPeriodMs;
+    private Integer maxAttempts;
 }

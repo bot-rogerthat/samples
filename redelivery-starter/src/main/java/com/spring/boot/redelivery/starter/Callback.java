@@ -6,11 +6,7 @@ public interface Callback<Req, Res> {
         // do nothing
     }
 
-    ;
-
     default void onFail(Context<Req> context) {
         // do nothing
     }
-
-    ;
 }

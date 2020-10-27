@@ -4,7 +4,7 @@ import brave.Span;
 import brave.Tracer;
 import brave.propagation.TraceContext;
 import com.spring.boot.redelivery.service.integration.db.DeliveryStorageMapper;
-import com.spring.boot.redelivery.service.integration.mq.RabbitMqSender;
+import com.spring.boot.redelivery.service.integration.kafka.KafkaSender;
 import com.spring.boot.redelivery.service.model.Delivery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import static brave.internal.codec.HexCodec.lowerHexToUnsignedLong;
 @Slf4j
 public class RedeliveryScheduler {
     private final DeliveryStorageMapper deliveryStorageMapper;
-    private final RabbitMqSender rabbitMqSender;
+    private final KafkaSender kafkaSender;
     private final Clock clock;
     private final Tracer tracer;
     @Value("${delivery.limit.rows}")
@@ -45,7 +45,7 @@ public class RedeliveryScheduler {
             Span span = tracer.toSpan(traceContext);
             try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span.start())) {
                 log.info("before run: {}", delivery);
-                rabbitMqSender.sendMessage(delivery);
+                kafkaSender.sendMessage(delivery);
                 deliveryStorageMapper.delete(delivery);
                 log.info("after run: {}", delivery);
             } finally {
