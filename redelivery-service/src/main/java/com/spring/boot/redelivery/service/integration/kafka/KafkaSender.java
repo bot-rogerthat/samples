@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class KafkaSender {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(Delivery delivery) {
+    public void send(Delivery delivery) {
         String serviceId = delivery.getServiceId();
         String context = delivery.getContext();
         log.info("before send: topic={}, message={}", serviceId, context);

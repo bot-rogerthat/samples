@@ -1,4 +1,4 @@
-package com.spring.boot.rest.service.integration.rest.create.deposit;
+package com.spring.boot.rest.service.integration.rest.axioma.deposit.create;
 
 import com.spring.boot.redelivery.starter.DataProvider;
 import com.spring.boot.redelivery.starter.RedeliveryException;

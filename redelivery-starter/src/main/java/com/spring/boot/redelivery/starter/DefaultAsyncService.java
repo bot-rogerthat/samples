@@ -5,6 +5,7 @@ import brave.Span;
 import brave.Tracer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -20,6 +21,7 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
     private final int redeliveryCount;
     private final long secondToActivate;
     private final Callback<Req, Res> callback;
+    @Getter
     private final String system;
     private final Class<Req> clazz;
     @Autowired
@@ -54,11 +56,13 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
                 //todo error after log
                 log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
                 callback.onFail(context);
+                doDeadDelivery(context);
             } finally {
                 newSpan.finish();
             }
         } else {
             callback.onFail(context);
+            doDeadDelivery(context);
         }
     }
 
@@ -67,7 +71,8 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
         redeliveryService.doDelivery(context, secondToActivate);
     }
 
-    public String getSystem() {
-        return system;
+    @Override
+    public void doDeadDelivery(Context<?> context) {
+        redeliveryService.doDeadDelivery(context);
     }
 }

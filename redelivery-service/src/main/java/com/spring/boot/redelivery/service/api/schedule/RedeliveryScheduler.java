@@ -41,11 +41,15 @@ public class RedeliveryScheduler {
             String traceId = delivery.getTraceId();
             long id = lowerHexToUnsignedLong(traceId);
             long spanId = generateNewSpanId();
-            TraceContext traceContext = TraceContext.newBuilder().traceId(id).spanId(spanId).build();
+            TraceContext traceContext = TraceContext.newBuilder()
+                    .traceId(id)
+                    .spanId(spanId)
+                    .sampled(true)
+                    .build();
             Span span = tracer.toSpan(traceContext);
             try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span.start())) {
                 log.info("before run: {}", delivery);
-                kafkaSender.sendMessage(delivery);
+                kafkaSender.send(delivery);
                 deliveryStorageMapper.delete(delivery);
                 log.info("after run: {}", delivery);
             } finally {

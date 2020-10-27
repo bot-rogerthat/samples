@@ -1,9 +1,6 @@
-package com.spring.boot.rest.service.integration.rest.create.deposit;
+package com.spring.boot.rest.service.integration.rest.axioma.deposit.create;
 
-import com.spring.boot.redelivery.starter.Callback;
-import com.spring.boot.redelivery.starter.DataProvider;
-import com.spring.boot.redelivery.starter.DefaultAsyncService;
-import com.spring.boot.redelivery.starter.RedeliveryService;
+import com.spring.boot.redelivery.starter.*;
 import com.spring.boot.rest.service.business.entity.Deposit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class RestCreateDepositServiceConfig {
     private final DataProvider<Deposit, Deposit> restCreateDepositProvider;
-    private final Callback<Deposit, Deposit> restCreateDepositCallback;
     @Autowired
     private RedeliveryService redeliveryService;
     @Value("${retry.default.count}")
@@ -31,7 +27,7 @@ public class RestCreateDepositServiceConfig {
                 redeliveryService,
                 redeliveryCount,
                 activateSecond,
-                restCreateDepositCallback,
+                new DefaultCallback<>(),
                 appName + "_" + "restCreateDepositAsyncService",
                 Deposit.class);
     }

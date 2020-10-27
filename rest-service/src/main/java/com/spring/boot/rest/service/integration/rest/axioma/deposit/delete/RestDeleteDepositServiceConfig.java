@@ -1,4 +1,4 @@
-package com.spring.boot.rest.service.integration.rest.delete.deposit;
+package com.spring.boot.rest.service.integration.rest.axioma.deposit.delete;
 
 import com.spring.boot.redelivery.starter.Callback;
 import com.spring.boot.redelivery.starter.DataProvider;

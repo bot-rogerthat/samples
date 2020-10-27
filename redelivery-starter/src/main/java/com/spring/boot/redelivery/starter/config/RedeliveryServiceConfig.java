@@ -13,10 +13,10 @@ import java.time.Clock;
 public class RedeliveryServiceConfig {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final Clock clock;
-    private final KafkaProperties kafkaProperties;
+    private final KafkaDeliveryProperties kafkaDeliveryProperties;
 
     @Bean
     public RedeliveryService redeliveryService() {
-        return new RedeliveryService(kafkaTemplate, clock, kafkaProperties);
+        return new RedeliveryService(kafkaTemplate, clock, kafkaDeliveryProperties);
     }
 }

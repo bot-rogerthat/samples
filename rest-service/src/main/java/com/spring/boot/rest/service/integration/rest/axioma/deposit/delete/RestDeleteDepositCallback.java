@@ -1,16 +1,16 @@
-package com.spring.boot.rest.service.integration.rest.delete.deposit;
+package com.spring.boot.rest.service.integration.rest.axioma.deposit.delete;
 
 import com.google.gson.Gson;
-import com.spring.boot.redelivery.starter.Callback;
 import com.spring.boot.redelivery.starter.Context;
 import com.spring.boot.redelivery.starter.DefaultAsyncService;
+import com.spring.boot.redelivery.starter.DefaultCallback;
 import com.spring.boot.rest.service.business.entity.Deposit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RestDeleteDepositCallback implements Callback<String, String> {
+public class RestDeleteDepositCallback extends DefaultCallback<String, String> {
     private final DefaultAsyncService<Deposit, Deposit> restCreateDepositAsyncService;
 
     @Override
@@ -18,10 +18,4 @@ public class RestDeleteDepositCallback implements Callback<String, String> {
         Deposit deposit = new Gson().fromJson(context.get("deposit"), Deposit.class);
         restCreateDepositAsyncService.send(new Context<>(context, restCreateDepositAsyncService.getSystem(), deposit));
     }
-
-    @Override
-    public void onFail(Context<String> context) {
-
-    }
-
 }

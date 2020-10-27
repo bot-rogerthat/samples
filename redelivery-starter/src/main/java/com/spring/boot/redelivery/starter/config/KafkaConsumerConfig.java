@@ -19,16 +19,16 @@ import java.util.Map;
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
 
 @Configuration
-@EnableConfigurationProperties(KafkaProperties.class)
+@EnableConfigurationProperties(KafkaDeliveryProperties.class)
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
-    private final KafkaProperties kafkaProperties;
+    private final KafkaDeliveryProperties kafkaDeliveryProperties;
 
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getGroupId());
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaDeliveryProperties.getBootstrapServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaDeliveryProperties.getGroupId());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
@@ -53,10 +53,10 @@ public class KafkaConsumerConfig {
     public RetryTemplate kafkaRetry() {
         RetryTemplate retryTemplate = new RetryTemplate();
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(kafkaProperties.getBackOffPeriodMs());
+        fixedBackOffPolicy.setBackOffPeriod(kafkaDeliveryProperties.getBackOffPeriodMs());
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
         SimpleRetryPolicy simpleRetryPolicy = new SimpleRetryPolicy();
-        simpleRetryPolicy.setMaxAttempts(kafkaProperties.getMaxAttempts());
+        simpleRetryPolicy.setMaxAttempts(kafkaDeliveryProperties.getMaxAttempts());
         retryTemplate.setRetryPolicy(simpleRetryPolicy);
         return retryTemplate;
     }
