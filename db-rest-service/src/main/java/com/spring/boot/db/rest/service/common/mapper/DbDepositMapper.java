@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface DbDepositMapper {
 
-    @Select("INSERT INTO deposit_schema.deposit (account_name, balance, expiration_date) " +
+    @Select("123INSERT INTO deposit_schema.deposit (account_name, balance, expiration_date) " +
             "VALUES (#{accountName}, #{balance}, #{expirationDate}) " +
             "RETURNING *")
     @Results({

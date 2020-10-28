@@ -1,9 +1,9 @@
 package com.spring.boot.rest.service.integration.rest.axioma.deposit.delete;
 
 import com.google.gson.Gson;
-import com.spring.boot.redelivery.starter.Context;
-import com.spring.boot.redelivery.starter.DefaultAsyncService;
-import com.spring.boot.redelivery.starter.DefaultCallback;
+import com.spring.boot.redelivery.api.Context;
+import com.spring.boot.redelivery.api.DefaultCallback;
+import com.spring.boot.redelivery.async.kafka.starter.DefaultAsyncService;
 import com.spring.boot.rest.service.business.entity.Deposit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

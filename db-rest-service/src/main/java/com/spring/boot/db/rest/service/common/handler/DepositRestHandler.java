@@ -1,10 +1,10 @@
 package com.spring.boot.db.rest.service.common.handler;
 
 import com.spring.boot.db.rest.service.business.entity.Deposit;
-import com.spring.boot.redelivery.starter.Context;
-import com.spring.boot.redelivery.starter.DefaultSyncService;
-import com.spring.boot.redelivery.starter.NonRedeliveryException;
-import com.spring.boot.redelivery.starter.log.StartProcess;
+import com.spring.boot.redelivery.api.Context;
+import com.spring.boot.redelivery.api.NonRedeliveryException;
+import com.spring.boot.redelivery.api.log.StartProcess;
+import com.spring.boot.redelivery.sync.starter.DefaultSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

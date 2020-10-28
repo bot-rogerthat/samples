@@ -1,8 +1,8 @@
 package com.spring.boot.db.rest.service.integration.db.insert;
 
 import com.spring.boot.db.rest.service.business.entity.Deposit;
-import com.spring.boot.redelivery.starter.DataProvider;
-import com.spring.boot.redelivery.starter.DefaultSyncService;
+import com.spring.boot.redelivery.api.DataProvider;
+import com.spring.boot.redelivery.sync.starter.DefaultSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

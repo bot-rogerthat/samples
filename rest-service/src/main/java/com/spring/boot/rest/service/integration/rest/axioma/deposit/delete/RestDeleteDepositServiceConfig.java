@@ -1,9 +1,9 @@
 package com.spring.boot.rest.service.integration.rest.axioma.deposit.delete;
 
-import com.spring.boot.redelivery.starter.Callback;
-import com.spring.boot.redelivery.starter.DataProvider;
-import com.spring.boot.redelivery.starter.DefaultAsyncService;
-import com.spring.boot.redelivery.starter.RedeliveryService;
+import com.spring.boot.redelivery.api.Callback;
+import com.spring.boot.redelivery.api.DataProvider;
+import com.spring.boot.redelivery.async.kafka.starter.DefaultAsyncService;
+import com.spring.boot.redelivery.async.kafka.starter.RedeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

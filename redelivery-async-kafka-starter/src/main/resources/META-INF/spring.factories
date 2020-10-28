@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.spring.boot.redelivery.async.kafka.starter.config.RedeliveryServiceConfig,\
+com.spring.boot.redelivery.async.kafka.starter.config.KafkaProducerConfig,\
+com.spring.boot.redelivery.async.kafka.starter.config.KafkaConsumerConfig

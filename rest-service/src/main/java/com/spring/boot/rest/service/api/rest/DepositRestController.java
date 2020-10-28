@@ -1,6 +1,6 @@
 package com.spring.boot.rest.service.api.rest;
 
-import com.spring.boot.redelivery.starter.Context;
+import com.spring.boot.redelivery.api.Context;
 import com.spring.boot.rest.service.business.entity.Deposit;
 import com.spring.boot.rest.service.common.handler.DepositHandler;
 import lombok.RequiredArgsConstructor;

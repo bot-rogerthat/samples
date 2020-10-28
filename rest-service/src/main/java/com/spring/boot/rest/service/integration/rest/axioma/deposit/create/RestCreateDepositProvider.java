@@ -1,7 +1,7 @@
 package com.spring.boot.rest.service.integration.rest.axioma.deposit.create;
 
-import com.spring.boot.redelivery.starter.DataProvider;
-import com.spring.boot.redelivery.starter.RedeliveryException;
+import com.spring.boot.redelivery.api.DataProvider;
+import com.spring.boot.redelivery.api.RedeliveryException;
 import com.spring.boot.rest.service.business.entity.Deposit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

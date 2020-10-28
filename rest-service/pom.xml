@@ -17,6 +17,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.spring.boot.redelivery.async.kafka.starter</groupId>
+            <artifactId>redelivery-async-kafka-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -36,11 +41,6 @@
             <version>2.3.0-b170127.1453</version>
         </dependency>
         <!--soap end-->
-        <dependency>
-            <groupId>com.spring.boot.redelivery.starter</groupId>
-            <artifactId>redelivery-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
@@ -80,10 +80,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,7 +1,7 @@
 package com.spring.boot.db.rest.service.integration.db.delete;
 
 import com.spring.boot.db.rest.service.common.mapper.DbDepositMapper;
-import com.spring.boot.redelivery.starter.DataProvider;
+import com.spring.boot.redelivery.api.DataProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

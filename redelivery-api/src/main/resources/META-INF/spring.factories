@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.spring.boot.redelivery.api.log.StartProcessAspect,\
+com.spring.boot.redelivery.api.config.ClockConfig

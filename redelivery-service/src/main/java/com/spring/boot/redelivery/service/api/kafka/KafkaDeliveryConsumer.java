@@ -3,9 +3,9 @@ package com.spring.boot.redelivery.service.api.kafka;
 import brave.Tracer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.spring.boot.redelivery.async.kafka.starter.config.KafkaDeliveryProperties;
 import com.spring.boot.redelivery.service.integration.db.DeliveryStorageMapper;
 import com.spring.boot.redelivery.service.model.Delivery;
-import com.spring.boot.redelivery.starter.config.KafkaDeliveryProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +28,7 @@ public class KafkaDeliveryConsumer {
             groupId = "#{__listener.kafkaDeliveryProperties.getGroupId()}")
     public void deliveryConsume(ConsumerRecord<String, String> record, Acknowledgment acknowledgment) {
         String message = record.value();
+        //todo передать логи на апишные
         log.info("before deliveryConsume: {}", message);
         Delivery delivery = new Gson().fromJson(message, new TypeToken<Delivery>() {
         }.getType());

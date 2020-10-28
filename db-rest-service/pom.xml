@@ -19,8 +19,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.spring.boot.redelivery.starter</groupId>
-			<artifactId>redelivery-starter</artifactId>
+			<groupId>com.spring.boot.redelivery.sync.starter</groupId>
+			<artifactId>redelivery-sync-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

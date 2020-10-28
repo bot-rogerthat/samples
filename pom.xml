@@ -23,9 +23,11 @@
         <module>rest-service</module>
         <module>kafka-producer-service</module>
         <module>kafka-consumer-service</module>
-        <module>redelivery-service</module>
-        <module>redelivery-starter</module>
         <module>db-rest-service</module>
+        <module>redelivery-service</module>
+        <module>redelivery-api</module>
+        <module>redelivery-async-kafka-starter</module>
+        <module>redelivery-sync-starter</module>
     </modules>
 
 </project>

@@ -2,8 +2,8 @@ package com.spring.boot.db.rest.service.api.rest;
 
 import com.spring.boot.db.rest.service.business.entity.Deposit;
 import com.spring.boot.db.rest.service.common.handler.DepositRestHandler;
-import com.spring.boot.redelivery.starter.Context;
-import com.spring.boot.redelivery.starter.NonRedeliveryException;
+import com.spring.boot.redelivery.api.Context;
+import com.spring.boot.redelivery.api.NonRedeliveryException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
