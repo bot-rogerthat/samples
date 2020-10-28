@@ -1,11 +1,11 @@
 package com.spring.boot.rest.service.api.rest;
 
-import com.google.gson.Gson;
 import com.spring.boot.redelivery.starter.Context;
-import com.spring.boot.redelivery.starter.DefaultAsyncService;
 import com.spring.boot.rest.service.business.entity.Deposit;
+import com.spring.boot.rest.service.common.handler.DepositHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/deposit")
 public class DepositRestController {
-    private final DefaultAsyncService<String, String> restDeleteDepositAsyncService;
+    private final DepositHandler depositHandler;
+    @Value("${spring.application.name}")
+    private String appName;
 
     @PostMapping()
     public String updateDeposit(@RequestBody Deposit deposit) {
-        Context<Deposit> context = new Context<>(deposit);
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", deposit);
-        Context<String> reqContext = new Context<>(context, restDeleteDepositAsyncService.getSystem(), deposit.getAccountName());
-        reqContext.put("deposit", new Gson().toJson(deposit));
-        restDeleteDepositAsyncService.send(reqContext);
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", "ok");
+        Context<Deposit> context = new Context<>(appName, deposit);
+        depositHandler.updateDeposit(context);
         return "ok";
     }
 

@@ -1,11 +1,12 @@
 package com.spring.boot.db.rest.service.api.rest;
 
 import com.spring.boot.db.rest.service.business.entity.Deposit;
+import com.spring.boot.db.rest.service.common.handler.DepositRestHandler;
 import com.spring.boot.redelivery.starter.Context;
-import com.spring.boot.redelivery.starter.DefaultSyncService;
 import com.spring.boot.redelivery.starter.NonRedeliveryException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -13,34 +14,25 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/deposit")
 public class DepositRestController {
-    private final DefaultSyncService<Deposit, Deposit> dbInsertDepositSyncService;
-    private final DefaultSyncService<String, Deposit> dbSelectDepositSyncService;
-    private final DefaultSyncService<String, String> dbDeleteDepositSyncService;
+    private final DepositRestHandler depositRestHandler;
+    @Value("${spring.application.name}")
+    private String appName;
 
     @PostMapping()
     public Deposit createDeposit(@RequestBody Deposit deposit) throws NonRedeliveryException {
-        Context<Deposit> context = new Context<>(deposit);
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", deposit);
-        Deposit created = dbInsertDepositSyncService.send(new Context<>(context, dbSelectDepositSyncService.getSystem(), deposit));
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", created);
-        return created;
+        Context<Deposit> context = new Context<>(appName, deposit);
+        return depositRestHandler.createDeposit(context);
     }
 
     @GetMapping("{name}")
     public Deposit getDepositByName(@PathVariable String name) throws NonRedeliveryException {
-        Context<String> context = new Context<>(name);
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", name);
-        Deposit deposit = dbSelectDepositSyncService.send(new Context<>(context, dbSelectDepositSyncService.getSystem(), name));
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", deposit);
-        return deposit;
+        Context<String> context = new Context<>(appName, name);
+        return depositRestHandler.getDeposit(context);
     }
 
     @DeleteMapping("{name}")
     public void deleteDepositByName(@PathVariable String name) throws NonRedeliveryException {
-        Context<String> context = new Context<>(name);
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "start process", name);
-        String result = dbDeleteDepositSyncService.send(new Context<>(context, dbSelectDepositSyncService.getSystem(), name));
-        log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), this.getClass().getSimpleName(), "end process", result);
+        Context<String> context = new Context<>(appName, name);
+        depositRestHandler.deleteDeposit(context);
     }
-
 }

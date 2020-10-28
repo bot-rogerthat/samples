@@ -53,7 +53,7 @@ public class RedeliveryService {
     private Delivery createDelivery(Context<?> context, long secondToActivate) {
         Delivery delivery = new Delivery();
         delivery.setUuid(context.getUuid());
-        delivery.setServiceId(context.getServiceId());
+        delivery.setServiceId(context.getSystem());
         delivery.setContext(new Gson().toJson(context));
         delivery.setActivationDate(LocalDateTime.now(clock).plusSeconds(secondToActivate));
         return delivery;

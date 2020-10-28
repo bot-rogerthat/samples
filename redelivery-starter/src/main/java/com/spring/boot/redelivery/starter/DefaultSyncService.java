@@ -4,10 +4,10 @@ package com.spring.boot.redelivery.starter;
 import brave.Span;
 import brave.Tracer;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Slf4j
+import static com.spring.boot.redelivery.starter.log.LogUtils.*;
+
 @RequiredArgsConstructor
 public class DefaultSyncService<Req, Res> implements SyncService<Req, Res> {
     private final DataProvider<Req, Res> dataProvider;
@@ -17,14 +17,15 @@ public class DefaultSyncService<Req, Res> implements SyncService<Req, Res> {
 
     @Override
     public Res send(Context<Req> context) throws NonRedeliveryException {
+        context.setSystem(system);
         Span newSpan = tracer.nextSpan().name(system).start();
+        long startTime = logBefore(context);
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan.start())) {
-            log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "before", context.getRequest());
             Res response = dataProvider.invoke(context.getRequest());
-            log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "after", response);
+            logAfter(startTime, context, response);
             return response;
         } catch (Exception e) {
-            log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
+            logError(startTime, context, e.getMessage());
             throw new NonRedeliveryException(e);
         } finally {
             newSpan.finish();

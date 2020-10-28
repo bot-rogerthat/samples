@@ -16,6 +16,6 @@ public class RestDeleteDepositCallback extends DefaultCallback<String, String> {
     @Override
     public void onSuccess(String response, Context<String> context) {
         Deposit deposit = new Gson().fromJson(context.get("deposit"), Deposit.class);
-        restCreateDepositAsyncService.send(new Context<>(context, restCreateDepositAsyncService.getSystem(), deposit));
+        restCreateDepositAsyncService.send(new Context<>(context, deposit));
     }
 }

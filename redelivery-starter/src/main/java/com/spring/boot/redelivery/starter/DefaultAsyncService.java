@@ -7,13 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 
-@Slf4j
+import static com.spring.boot.redelivery.starter.log.LogUtils.*;
+
 @RequiredArgsConstructor
 public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redelivery {
     private final DataProvider<Req, Res> dataProvider;
@@ -37,24 +37,21 @@ public class DefaultAsyncService<Req, Res> implements AsyncService<Req>, Redeliv
 
     @Override
     public void send(Context<Req> context) {
+        context.setSystem(system);
         Span newSpan = tracer.nextSpan().name(system).start();
         context.setCount(context.getCount() + 1);
         if (context.getCount() < redeliveryCount) {
             Req request = context.getRequest();
+            long startTime = logBefore(context);
             try (Tracer.SpanInScope ws = tracer.withSpanInScope(newSpan.start())) {
-                //todo before log
-                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "before", context.getRequest());
                 Res response = dataProvider.invoke(request);
-                //todo after log
-                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "after", response);
+                logAfter(startTime, context, response);
                 callback.onSuccess(response, context);
             } catch (RedeliveryException e) {
-                //todo error after log
-                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
+                logError(startTime, context, e.getMessage());
                 doDelivery(context);
             } catch (NonRedeliveryException e) {
-                //todo error after log
-                log.info("uuid: {}, system: {}, call: {}, data: {}", context.getUuid(), system, "error", e.getMessage());
+                logError(startTime, context, e.getMessage());
                 callback.onFail(context);
                 doDeadDelivery(context);
             } finally {

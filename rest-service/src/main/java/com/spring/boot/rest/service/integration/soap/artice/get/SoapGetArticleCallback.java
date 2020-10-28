@@ -26,7 +26,7 @@ public class SoapGetArticleCallback implements Callback<GetArticleRequest, GetAr
         addArticleRequest.setName(newName);
         addArticleRequest.setDescription("add new");
         try {
-            soapAddArticleService.send(new Context<>(context, this.getClass().getSimpleName(), addArticleRequest));
+            soapAddArticleService.send(new Context<>(context, addArticleRequest));
         } catch (RedeliveryException | NonRedeliveryException e) {
             e.printStackTrace();
         }
